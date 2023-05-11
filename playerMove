@@ -1,0 +1,45 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+
+public class playerMove : MonoBehaviour
+{
+    [SerializeField] private Rigidbody _rigidbody;
+    [SerializeField] private float _speed = 5f;
+
+    [SerializeField] private bool _ground;
+    [SerializeField] private float jumpForce = 100f;
+
+    void Update()
+    {
+        float h = Input.GetAxisRaw("Horizontal");  //система ходьбы при помощи физики
+        float v = Input.GetAxisRaw("Vertical");
+
+        Vector3 velocity = new Vector3(h, 0, v) * _speed;
+        velocity.y = _rigidbody.velocity.y; 
+        Vector3 worldVelocity = transform.TransformVector(velocity); 
+        _rigidbody.velocity = worldVelocity;
+
+        if (Input.GetKeyDown(KeyCode.Space)) //прыжок с проверкой на поверхность
+        {
+            if (_ground == true)
+            { _rigidbody.AddForce(transform.up * jumpForce); }
+        }
+
+        if (Input.GetKey(KeyCode.LeftShift)) //ускорение на шифт
+        { _speed = 7f; }
+        else 
+        { _speed = 5f; }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Ground")
+        { _ground = true; }
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "Ground")
+        { _ground = false; }
+    }
+}
