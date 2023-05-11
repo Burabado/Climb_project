@@ -1,0 +1,21 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ToolsManager : MonoBehaviour
+{
+    [SerializeField] private GameObject _weapon;
+    public void EnableToolsCollider(int isEnable)
+    {
+        if (_weapon != null)
+        {
+            var col = _weapon.GetComponent<Collider>();
+
+            if (col != null)
+            {
+                if (isEnable == 1) { col.enabled = true; }
+                else { col.enabled = false; }
+            }
+        }
+    }
+}
