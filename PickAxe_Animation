@@ -1,0 +1,28 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PickAxe_Animation : MonoBehaviour
+{
+    [SerializeField] private Animator _animator;
+    void Start()
+    {
+        _animator = GetComponent<Animator>();
+    }
+
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            _animator.SetBool("open_hit", true);
+            _animator.SetBool("close_hit", false);
+        }
+        else if (Input.GetMouseButtonUp(0))
+        { _animator.SetBool("close_hit", true); }
+        else
+        {
+            _animator.SetBool("open_hit", false);
+            _animator.SetBool("close_hit", true);
+        }
+    }
+}
